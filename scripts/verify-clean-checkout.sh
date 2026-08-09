@@ -23,4 +23,8 @@ npm ci
 cp .env.example .env
 npm run check
 npm test
-npm run build
+npm run build 2>&1 | tee build.log
+if grep -Fq 'auth/invalid-api-key' build.log; then
+	echo 'Clean checkout prerendered with an invalid Firebase API key.' >&2
+	exit 1
+fi

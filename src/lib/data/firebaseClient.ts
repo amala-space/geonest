@@ -1,7 +1,8 @@
+import { browser } from '$app/environment';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { getFunctions } from 'firebase/functions';
+import { getFirestore, type Firestore } from 'firebase/firestore';
+import { getAuth, type Auth } from 'firebase/auth';
+import { getFunctions, type Functions } from 'firebase/functions';
 import {
 	PUBLIC_FIREBASE_API_KEY,
 	PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -20,8 +21,21 @@ const firebaseConfig = {
 	appId: PUBLIC_FIREBASE_APP_ID
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+function unavailableDuringSsr<Service extends object>(serviceName: string): Service {
+	return new Proxy({}, {
+		get() {
+			throw new Error(`${serviceName} is available only in the browser.`);
+		}
+	}) as Service;
+}
 
-export const db = getFirestore(app);
-export const auth = getAuth(app);
-export const feedbackFunctions = getFunctions(app, 'us-central1');
+// Public routes are prerendered on the server. Firebase Auth validates the API
+// key as soon as it is initialized, so it must not start while rendering the
+// fork template's deliberately empty example configuration.
+const app = browser ? (getApps().length === 0 ? initializeApp(firebaseConfig) : getApp()) : null;
+
+export const db: Firestore = app ? getFirestore(app) : unavailableDuringSsr<Firestore>('Firestore');
+export const auth: Auth = app ? getAuth(app) : unavailableDuringSsr<Auth>('Firebase Auth');
+export const feedbackFunctions: Functions = app
+	? getFunctions(app, 'us-central1')
+	: unavailableDuringSsr<Functions>('Firebase Functions');
