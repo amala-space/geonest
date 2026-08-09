@@ -1,0 +1,23 @@
+{
+  "name": "geonest-functions",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^7.2.5",
+    "ua-parser-js": "^1.0.41"
+  },
+  "devDependencies": {
+    "@types/ua-parser-js": "^0.7.39",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.6"
+  }
+}

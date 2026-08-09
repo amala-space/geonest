@@ -1,0 +1,168 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function projectRef(projectId) {
+      return /databases/$(database)/documents/projects/$(projectId);
+    }
+
+    function projectMembershipRef(projectId, uid) {
+      return /databases/$(database)/documents/projects/$(projectId)/members/$(uid);
+    }
+
+    function isProjectOwner(projectId) {
+      return isSignedIn()
+        && exists(projectRef(projectId))
+        && get(projectRef(projectId)).data.createdByUid == request.auth.uid;
+    }
+
+    function myMembership(projectId) {
+      return get(projectMembershipRef(projectId, request.auth.uid)).data;
+    }
+
+    function isActiveMember(projectId) {
+      return isSignedIn()
+        && exists(projectMembershipRef(projectId, request.auth.uid))
+        && myMembership(projectId).uid == request.auth.uid
+        && myMembership(projectId).state == 'active';
+    }
+
+    // Project owner or an active admin member.
+    function isProjectAdmin(projectId) {
+      return isProjectOwner(projectId)
+        || (isActiveMember(projectId) && myMembership(projectId).role == 'admin');
+    }
+
+    // Anyone allowed to read and write field data within a project.
+    function canAccessProject(projectId) {
+      return isProjectOwner(projectId) || isActiveMember(projectId);
+    }
+
+    function isValidSyncSignalWrite(projectId) {
+      return request.resource.data.projectId == projectId
+        && request.resource.data.lastChangedByClientId is string
+        && request.resource.data.lastBumpedAt == request.time
+        && (resource == null
+          || resource.data.lastBumpedAt == null
+          || request.time > resource.data.lastBumpedAt + duration.value(1, 's'));
+    }
+
+    function isMembershipPayloadForProject(projectId, uid) {
+      return request.resource.data.uid == uid
+        && request.resource.data.projectId == projectId;
+    }
+
+    function accessLinkRef(projectId, token) {
+      return /databases/$(database)/documents/projects/$(projectId)/accessLinks/$(token);
+    }
+
+    // A self-service join is only permitted when the membership payload carries
+    // an access token (viaToken) that maps to an active accessLink for the
+    // project. Revoking the link (state != 'active') immediately blocks new joins.
+    function hasValidAccessToken(projectId) {
+      return request.resource.data.viaToken is string
+        && exists(accessLinkRef(projectId, request.resource.data.viaToken))
+        && get(accessLinkRef(projectId, request.resource.data.viaToken)).data.state == 'active';
+    }
+
+    // Collection-group queries: account flows list the user's own memberships
+    // across all projects via where('uid', '==', auth.uid).
+    match /{path=**}/members/{memberId} {
+      allow list: if isSignedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    match /feedback/{feedbackId} {
+      allow read, write: if false;
+    }
+
+    match /feedbackRateLimits/{limitId} {
+      allow read, write: if false;
+    }
+
+    match /projects/{projectId} {
+      // Only the owner or an active member may read a project. New joiners do not
+      // read the project first — they create a token-gated membership (see
+      // /members below), after which this rule grants them access.
+      allow get: if canAccessProject(projectId);
+      allow list: if isSignedIn() && resource.data.createdByUid == request.auth.uid;
+      allow create: if isSignedIn()
+        && request.resource.data.createdByUid == request.auth.uid;
+      allow update: if isProjectAdmin(projectId)
+        && request.resource.data.createdByUid == resource.data.createdByUid;
+      allow delete: if isProjectAdmin(projectId);
+
+      match /meta/{metaId} {
+        allow read: if canAccessProject(projectId);
+        allow write: if isProjectAdmin(projectId)
+          || (canAccessProject(projectId) && isValidSyncSignalWrite(projectId));
+      }
+
+      match /features/{featureId} {
+        allow read, delete: if canAccessProject(projectId);
+        allow create, update: if canAccessProject(projectId)
+          && request.resource.data.projectId == projectId;
+      }
+
+      match /profiles/{profileId} {
+        allow read, delete: if canAccessProject(projectId);
+        allow create, update: if canAccessProject(projectId)
+          && request.resource.data.projectId == projectId;
+      }
+
+      match /trackSessions/{sessionId} {
+        allow read, delete: if canAccessProject(projectId);
+        allow create, update: if canAccessProject(projectId)
+          && request.resource.data.projectId == projectId;
+      }
+
+      match /trackPoints/{pointId} {
+        allow read, delete: if canAccessProject(projectId);
+        allow create, update: if canAccessProject(projectId)
+          && request.resource.data.projectId == projectId;
+      }
+
+      // Only project admins manage access links
+      match /accessLinks/{accessLinkId} {
+        allow read, write: if isProjectAdmin(projectId);
+      }
+
+      // Audit events are append-only; project admins read them
+      match /auditEvents/{eventId} {
+        allow read: if isProjectAdmin(projectId);
+        allow create: if canAccessProject(projectId);
+        allow update, delete: if false;
+      }
+
+      match /members/{uid} {
+        allow read: if isSignedIn() && (request.auth.uid == uid || isProjectAdmin(projectId));
+        allow create: if isSignedIn()
+          && isMembershipPayloadForProject(projectId, uid)
+          && (
+            isProjectAdmin(projectId)
+            || (
+              request.auth.uid == uid
+              && request.resource.data.role == 'member'
+              && request.resource.data.state == 'active'
+              && hasValidAccessToken(projectId)
+            )
+          );
+        allow update: if isSignedIn()
+          && isMembershipPayloadForProject(projectId, uid)
+          && (
+            isProjectAdmin(projectId)
+            || (
+              request.auth.uid == uid
+              && resource.data.uid == uid
+              && request.resource.data.role == resource.data.role
+              && request.resource.data.role == 'member'
+            )
+          );
+        allow delete: if isSignedIn() && (request.auth.uid == uid || isProjectAdmin(projectId));
+      }
+    }
+  }
+}

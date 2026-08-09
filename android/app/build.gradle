@@ -1,0 +1,104 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.crashlytics'
+
+def versionProps = new Properties()
+def versionPropsFile = rootProject.file('version.properties')
+if (versionPropsFile.exists()) {
+    versionProps.load(new FileInputStream(versionPropsFile))
+}
+def appVersionCode = (versionProps.getProperty('versionCode') ?: '1').toInteger()
+def appVersionName = versionProps.getProperty('versionName') ?: '1.0'
+
+def localEnvProps = new Properties()
+def localEnvFile = rootProject.file('../.env')
+if (localEnvFile.exists()) {
+    localEnvProps.load(new FileInputStream(localEnvFile))
+}
+
+def identityValue = { String gradleProperty, String environmentVariable, String defaultValue ->
+    (project.findProperty(gradleProperty)
+        ?: System.getenv(environmentVariable)
+        ?: localEnvProps.getProperty(environmentVariable)
+        ?: defaultValue).toString()
+}
+
+def androidApplicationId = identityValue('androidAppId', 'PUBLIC_ANDROID_APP_ID', 'com.example.geonest')
+def androidDeepLinkHost = identityValue('androidDeepLinkHost', 'PUBLIC_ANDROID_DEEP_LINK_HOST', 'example.com')
+def androidDeepLinkPathPrefix = identityValue('androidDeepLinkPathPrefix', 'PUBLIC_ANDROID_DEEP_LINK_PATH_PREFIX', '/geonest/join/')
+
+def keystoreProps = new Properties()
+def keystorePropsFile = rootProject.file('keystore.properties')
+if (keystorePropsFile.exists()) {
+    keystoreProps.load(new FileInputStream(keystorePropsFile))
+}
+
+android {
+    namespace "com.geotracker.app"
+    compileSdk rootProject.ext.compileSdkVersion
+    signingConfigs {
+        release {
+            if (keystorePropsFile.exists()) {
+                keyAlias keystoreProps['keyAlias']
+                keyPassword keystoreProps['keyPassword']
+                storeFile file(keystoreProps['storeFile'])
+                storePassword keystoreProps['storePassword']
+            }
+        }
+    }
+    defaultConfig {
+        applicationId androidApplicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode appVersionCode
+        versionName appVersionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+            appLinkHost: androidDeepLinkHost,
+            appLinkPathPrefix: androidDeepLinkPathPrefix
+        ]
+        resValue "string", "package_name", androidApplicationId
+        resValue "string", "custom_url_scheme", androidApplicationId
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation project(':capacitor-cordova-android-plugins')
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}

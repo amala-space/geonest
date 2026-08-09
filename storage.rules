@@ -1,0 +1,16 @@
+rules_version = '2';
+
+// Feedback screenshots are private. The callable function uses Admin SDK
+// credentials and bypasses these client rules.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /feedback/{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // Everything else is closed by default.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

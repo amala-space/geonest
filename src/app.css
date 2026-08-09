@@ -1,0 +1,403 @@
+@import "tailwindcss";
+
+*, *::before, *::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	--color-bg: #eef2f1;
+	--color-surface: #ffffff;
+	--color-surface-raised: rgba(255,255,255,0.94);
+	--color-surface-subtle: #f8faf9;
+	--color-primary: #287456;
+	--color-primary-dark: #174633;
+	--color-map-blue: #2563eb;
+	--color-area-green: #21856a;
+	--color-warning: #b7791f;
+	--color-danger: #c53030;
+	--color-text: #111827;
+	--color-muted: #64706d;
+	--color-border: #d6ddda;
+	--color-border-strong: #aebbb6;
+	/* Semantic text */
+	--color-text-dark: #24332e;
+	--color-text-nav: #33413c;
+	/* Capture tool palette */
+	--color-tool-point: #3f4f4a;
+	--color-tool-area: #3f8f73;
+	--color-area-accent: #2a9d8f;   /* area chip, map fill, ctx dot */
+	/* Action button states */
+	--color-primary-hover: #123829;
+	/* New project button */
+	--color-project-btn: #64804c;
+	--color-project-btn-hover: #567043;
+	/* Wordmark */
+	--color-wordmark-geo: #2f3e4d;
+	--color-wordmark-nest: #6f8f48;
+	/* Status badge semantic tokens */
+	--color-badge-enabled-bg: #dcfce7;
+	--color-badge-enabled-text: #0d6641;
+	--color-badge-disabled-bg: #fef9c3;
+	--color-badge-disabled-text: #854d0e;
+	/* Error surface */
+	--color-error-surface: #fff5f5;
+	--color-error-border: #fecaca;
+	/* Sync badge */
+	--color-sync-bg: #e0f2fe;
+	--color-sync-text: #0369a1;
+	/* Chip neutral fill (replaces border token used as fill) */
+	--color-chip-neutral-bg: #e8edea;
+	--color-chip-neutral-text: var(--color-muted);
+	--focus-ring: 0 0 0 3px rgba(37,99,235,0.2);
+	--radius: 8px;
+	--radius-lg: 12px;
+	--radius-pill: 999px;
+	--radius-md: 10px;
+	--radius-card: 14px;
+	--radius-card-lg: 18px;
+	--radius-card-xl: 20px;
+	--radius-card-xxl: 24px;
+	--content-width: 600px;
+	--shadow: 0 8px 24px rgba(15,23,42,0.12);
+	--shadow-card: 0 1px 2px rgba(15,23,42,0.08), 0 8px 24px rgba(15,23,42,0.08);
+	--glass-bg: rgba(255, 255, 255, 0.78);
+	--glass-bg-hover: rgba(255, 255, 255, 0.92);
+	--glass-blur: blur(12px) saturate(1.6);
+	--glass-border-width: 2.5px;
+	--map-bottom-control-offset: calc(4.25rem + max(env(safe-area-inset-bottom), calc(var(--sab, 0px) + 4px), 8px));
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	font-size: 16px;
+}
+
+/*
+ * Z-INDEX SCALE
+ * 0       – map canvas (persistent layout layer)
+ * 10      – map overlay buttons (zoom, basemap, compass)
+ * 200–260 – map overlays (crosshair 240, capture-panel 250, bottom-right 260)
+ * 300     – ActionBar (above map overlays)
+ * 500     – sticky page headers (PageHeader component)
+ * 900     – context menus
+ * 1000    – feature dialogs / modals
+ * 1200    – map attribution (maplibre override)
+ * 1300    – map boot loader
+ * 1500    – project page header (fixed position)
+ * 1600    – dropdowns anchored to project header buttons
+ */
+
+.app-bg-gradient {
+	background:
+		radial-gradient(circle at 14% 10%, rgba(39, 116, 86, 0.16), transparent 24%),
+		radial-gradient(circle at 84% 14%, rgba(37, 99, 235, 0.12), transparent 22%),
+		radial-gradient(circle at 52% 72%, rgba(111, 143, 72, 0.08), transparent 30%),
+		linear-gradient(180deg, #f7faf8 0%, #eef3f0 42%, #e8eeeb 100%);
+}
+
+/* ── Shared pill-toggle component ─────────────────────────────── */
+.pill-toggle {
+	display: inline-flex;
+	gap: 0.2rem;
+	flex-shrink: 0;
+	background: rgba(232, 238, 235, 0.9);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-lg);
+	padding: 0.18rem;
+}
+
+.pill-toggle .pill-btn {
+	background: transparent;
+	color: var(--color-text-nav, #33413c);
+	border: none;
+	border-radius: var(--radius);
+	box-shadow: none;
+	padding: 0.34rem 0.65rem;
+	font-size: 0.75rem;
+	font-weight: 700;
+	cursor: pointer;
+	line-height: 1;
+	min-height: 1.95rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	transition: background 0.12s ease, color 0.12s ease;
+}
+
+.pill-toggle .pill-btn.active {
+	background: #fff;
+	color: var(--color-primary-dark);
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+}
+
+/* Shared top-right map controls used by project and track pages. */
+.map-overlay-btn {
+	z-index: 10;
+	pointer-events: auto;
+	width: 29px;
+	height: 29px;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+	border: none;
+	border-radius: 4px;
+	box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+	cursor: pointer;
+}
+
+.zoom-btn svg { width: 16px; height: 16px; stroke: #374151; }
+
+.basemap-toggle-btn.active { background: #3f8f73; box-shadow: 0 0 0 2px rgba(10, 61, 43, 0.28); }
+.basemap-toggle-btn svg { width: 15px; height: 15px; stroke: #2d6a4f; }
+.basemap-toggle-btn.active svg { stroke: #fff; }
+.satellite .basemap-toggle-btn svg { stroke: #5db88a; }
+.satellite .basemap-toggle-btn.active svg { stroke: #fff; }
+.compass-overlay-btn svg { width: 18px; height: 18px; }
+
+body {
+	background: var(--color-bg);
+	color: var(--color-text);
+	min-height: 100dvh;
+	overscroll-behavior: none;
+}
+
+button:not(.maplibregl-ctrl-group > button) {
+	cursor: pointer;
+	font-size: 1rem;
+	border: none;
+	border-radius: var(--radius-pill);
+	padding: 0.75rem 1.25rem;
+	font-weight: 600;
+}
+
+/* Keep top-right map overlay controls compact regardless of global button reset. */
+.map-overlay-btn {
+	padding: 0 !important;
+	border-radius: 4px !important;
+	font-size: inherit !important;
+	font-weight: 400 !important;
+}
+
+/* Keep MapLibre navigation controls readable regardless of surrounding theme color. */
+.maplibregl-ctrl-group > button {
+	background-color: #ffffff;
+	color: #1f2937;
+}
+
+.maplibregl-ctrl-group > button .maplibregl-ctrl-icon {
+	color: #1f2937;
+}
+
+/* Attribution: keep compact control icon-only when collapsed. */
+.maplibregl-ctrl-attrib.maplibregl-compact:not(.maplibregl-compact-show) {
+	background-color: transparent !important;
+}
+
+/* Lift bottom-left map controls (attribution) above floating action/nav bars. */
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl {
+	margin-bottom: var(--map-bottom-control-offset) !important;
+}
+
+.maplibregl-ctrl-bottom-left {
+	z-index: 1200 !important;
+}
+
+/* Reset global button padding on the attribution button without overriding
+   MapLibre's own icon rendering or fill behavior. */
+.maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-button {
+	padding: 0 !important;
+	border-radius: 999px !important;
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn-primary {
+	background: var(--color-primary-dark);
+	color: white;
+}
+
+.btn-danger {
+	background: var(--color-danger);
+	color: white;
+}
+
+.btn-ghost {
+	background: transparent;
+	color: var(--color-primary-dark);
+	border: 1.5px solid var(--color-primary-dark);
+}
+
+.error {
+	color: var(--color-danger);
+	font-size: 0.875rem;
+}
+
+.muted {
+	color: var(--color-muted);
+	text-align: center;
+	padding: 2rem;
+}
+
+.spinner {
+	width: 2rem;
+	height: 2rem;
+	border: 3px solid var(--color-border);
+	border-top-color: var(--color-primary-dark);
+	border-radius: 50%;
+	animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+	to { transform: rotate(360deg); }
+}
+
+input, textarea {
+	width: 100%;
+	padding: 0.75rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	font-size: 1rem;
+}
+
+/* onPopoverRender moves close button into the title element.
+   Title becomes a flex row: [text][×]. No CSS specificity battles. */
+.driver-popover.geotracker-tour {
+	max-width: min(340px, calc(100vw - 1.25rem));
+	max-height: none;
+	overflow: visible;
+}
+
+.geotracker-tour .driver-popover-title {
+	display: flex !important; /* beat driver.js inline style="display:block" */
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	font-size: 1.02rem;
+	line-height: 1.2;
+	font-weight: 700;
+}
+
+.geotracker-tour .driver-popover-close-btn {
+	position: static !important; /* beat driver.js CSS position:absolute */
+	flex-shrink: 0;
+	width: 1.45rem;
+	height: 1.45rem;
+	font-size: 1rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.92);
+	display: inline-flex !important; /* beat driver.js inline style="display:block" */
+	align-items: center;
+	justify-content: center;
+}
+
+.geotracker-tour .driver-popover-description {
+	font-size: 0.88rem;
+	line-height: 1.35;
+	margin-top: 0.25rem;
+	max-height: none;
+	overflow: visible;
+}
+
+.geotracker-tour .driver-popover-footer {
+	margin-top: 0.4rem;
+}
+
+.geotracker-tour .driver-popover-progress-text {
+	font-size: 0.8rem;
+}
+
+.geotracker-tour .driver-popover-navigation-btns button,
+.geotracker-tour .driver-popover-next-btn,
+.geotracker-tour .driver-popover-prev-btn {
+	font-size: 0.8rem;
+	font-weight: 700;
+	padding: 0.35rem 0.5rem;
+	border-radius: 8px;
+	min-height: auto;
+	line-height: 1.2;
+}
+
+@media (max-width: 380px) {
+	.driver-popover.geotracker-tour {
+		max-width: calc(100vw - 0.9rem);
+		max-height: min(46vh, 18rem);
+		overflow-y: auto;
+		overflow-x: hidden;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+
+	.driver-popover.geotracker-tour::-webkit-scrollbar {
+		display: none;
+	}
+
+	.geotracker-tour .driver-popover-title {
+		font-size: 0.96rem;
+	}
+
+	.geotracker-tour .driver-popover-description {
+		font-size: 0.82rem;
+		line-height: 1.3;
+	}
+
+	.geotracker-tour .driver-popover-navigation-btns button,
+	.geotracker-tour .driver-popover-next-btn,
+	.geotracker-tour .driver-popover-prev-btn {
+		font-size: 0.75rem;
+		padding: 0.28rem 0.42rem;
+	}
+
+	.geotracker-tour .driver-popover-progress-text {
+		font-size: 0.75rem;
+	}
+}
+
+/* ── Native page transitions (View Transitions API) ──────────────────────────
+   Material fade-through on route change: outgoing leaves fast (fade + slight
+   shrink), incoming eases in (fade + settle from slightly larger). The subtle
+   scale is a depth cue that reads more native than flat opacity. The persistent
+   WebGL map layer is excluded (it carries its own view-transition-name:
+   persistent-map) so it stays put. Unsupported WebViews fall back to instant nav. */
+::view-transition-old(root),
+::view-transition-new(root) {
+	transform-origin: center center;
+}
+
+::view-transition-old(root) {
+	animation: 90ms cubic-bezier(0.4, 0, 1, 1) both gt-page-fade-out;
+}
+
+::view-transition-new(root) {
+	animation: 210ms cubic-bezier(0, 0, 0.2, 1) 30ms both gt-page-fade-in;
+}
+
+@keyframes gt-page-fade-out {
+	to { opacity: 0; transform: scale(0.96); }
+}
+
+@keyframes gt-page-fade-in {
+	from { opacity: 0; transform: scale(1.04); }
+}
+
+/* Shared-element morph: the tapped project name flies/grows from the home card
+   into the <h1> on the project map route. Emphasized easing for a native feel. */
+::view-transition-group(project-hero) {
+	animation-duration: 300ms;
+	animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Map stays static across the transition — no fade, no movement. */
+::view-transition-group(persistent-map),
+::view-transition-old(persistent-map),
+::view-transition-new(persistent-map) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation: none;
+	}
+}

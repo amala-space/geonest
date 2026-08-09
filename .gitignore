@@ -1,0 +1,62 @@
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+.claude
+.fallow
+.fallowrc.json
+.vscode
+/.svelte-kit
+/build
+/videos
+
+# MkDocs build output (docs/ itself is versioned)
+/site
+
+# Python virtualenvs — never commit a repo-local venv (fragile absolute paths).
+# Install MkDocs globally instead: uv tool install / pipx install mkdocs-material
+.venv
+.venv-docs
+venv/
+**/pyvenv.cfg
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Local agent state
+.claude/
+
+# Android signing — never commit
+/android/keystore.properties
+/android/*.jks
+/android/*.keystore
+
+# Deep-link identity — package + signing fingerprint (use the .example)
+/static/.well-known/assetlinks.json
+
+# Build identity — env-overridable, copied from capacitor.config.ts.example
+/capacitor.config.ts
+
+/scripts/tutorials/.storage-state.json
+
+# Local Google Play API service-account key used by the tester probe.
+/play-service-account.json
+
+/.firebaserc
+/playwright.tutorials.config.ts
+
+/.firebase/

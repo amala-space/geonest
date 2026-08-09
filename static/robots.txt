@@ -1,0 +1,10 @@
+User-agent: *
+Disallow:
+Disallow: /admin
+Disallow: /projects
+Disallow: /join
+Disallow: /offline-maps
+
+# Replace example.com and these root-relative paths if your deployment uses a
+# subpath. The canonical public URL must match PUBLIC_APP_URL.
+Sitemap: https://example.com/sitemap.xml

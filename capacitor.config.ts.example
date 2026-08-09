@@ -1,0 +1,43 @@
+import type { CapacitorConfig } from '@capacitor/cli';
+import { readFileSync } from 'fs';
+
+// Load .env so PUBLIC_* android identity reaches `cap sync` / `cap run`
+// (Capacitor runs this config in a plain Node process that does not read .env).
+try {
+	for (const line of readFileSync('.env', 'utf8').split('\n')) {
+		const m = line.match(/^([^#=]+)=(.*)$/);
+		if (m) process.env[m[1].trim()] ??= m[2].trim();
+	}
+} catch { /* .env is optional */ }
+
+// Copy to capacitor.config.ts. Android identity is env-overridable so forks can
+// build their own app without editing source. Set these in your shell (or .env
+// loaded before `cap sync`):
+//   PUBLIC_ANDROID_APP_ID           – applicationId / Play Store id
+//   PUBLIC_GOOGLE_ANDROID_CLIENT_ID – Firebase Auth Android OAuth client id
+//   PUBLIC_ANDROID_DEEP_LINK_HOST   – Android App Link host (read by Gradle)
+//   PUBLIC_ANDROID_DEEP_LINK_PATH_PREFIX – Android App Link path prefix (read by Gradle)
+const config: CapacitorConfig = {
+	appId: process.env.PUBLIC_ANDROID_APP_ID || 'com.example.geonest',
+	appName: 'Geonest',
+	webDir: 'build',
+	server: {
+		androidScheme: 'https'
+	},
+	plugins: {
+		Geolocation: {
+			permissions: ['location']
+		},
+		StatusBar: {
+			style: 'LIGHT',
+			backgroundColor: '#00000000'
+		},
+		FirebaseAuthentication: {
+			skipNativeAuth: false,
+			providers: ['google.com'],
+			androidClientId: process.env.PUBLIC_GOOGLE_ANDROID_CLIENT_ID || ''
+		}
+	}
+};
+
+export default config;

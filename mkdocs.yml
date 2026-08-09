@@ -1,0 +1,86 @@
+site_name: Geonest documentation
+site_description: Offline-first field mapping — knowledge base
+docs_dir: docs
+use_directory_urls: true
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+
+# Legacy dated plans are kept in the repo for provenance but not rendered.
+exclude_docs: |
+  archive/plans/
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+
+# Strict is passed on the command line in CI (`mkdocs build --strict`) so broken
+# internal links and missing nav entries fail the build.
+
+nav:
+  - Home: index.md
+  - Product:
+      - Vision: product/vision.md
+      - Terminology: product/terminology.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Data model: architecture/data-model.md
+      - Integrations:
+          - Overview: architecture/integrations/index.md
+          - Firebase ↔ Streamlit: architecture/integrations/firebase-streamlit-contract.md
+          - PostGIS mirror: architecture/integrations/postgis-mirror-contract.md
+  - Decisions:
+      - Overview: decisions/index.md
+      - 0001 Offline-first local write: decisions/0001-offline-first-local-write.md
+      - 0002 IndexedDB storage: decisions/0002-indexeddb-storage.md
+      - 0003 Custom Android tracking plugin: decisions/0003-custom-android-tracking-plugin.md
+      - 0004 cleanUrls SEO serving: decisions/0004-cleanurls-seo-serving.md
+      - 0005 Per-project cloud sync: decisions/0005-per-project-cloud-sync-eligibility.md
+      - 0006 Static bundle web + Capacitor: decisions/0006-static-bundle-web-and-capacitor.md
+      - 0007 Early access tester capture: decisions/0007-early-access-tester-capture.md
+      - 0008 Workspace Group tester enrollment: decisions/0008-workspace-group-tester-enrollment.md
+      - 0009 Disable early-access SMTP fallback: decisions/0009-temporarily-disable-early-access-smtp-fallback.md
+      - 0010 Tester self-enrolment: decisions/0010-tester-self-enrolment.md
+  - Development:
+      - Setup: development/setup.md
+      - Conventions: development/conventions.md
+      - Frontend animations: development/frontend-animations.md
+  - Operations:
+      - Deployment: operations/deployment.md
+      - SEO: operations/seo.md
+  - Archive:
+      - Overview: archive/index.md
+      - Original design plan: archive/design-original.md
+      - Developer notes: archive/dev-notes.md
+      - Docs-architecture note: archive/wiki-docs-architecture-note.md
