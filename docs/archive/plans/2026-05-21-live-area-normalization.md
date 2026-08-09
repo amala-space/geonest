@@ -40,7 +40,7 @@ it('rejects a self-crossing draft that becomes disconnected', () => {
 
 **Step 2: Run the focused tests and verify red**
 
-Run: `rtk npm test -- geo`
+Run: `npm test -- geo`
 
 Expected: FAIL because `normalizeAreaCorners` is not exported yet.
 
@@ -57,7 +57,7 @@ In `src/lib/geo.ts`:
 
 **Step 4: Re-run focused tests**
 
-Run: `rtk npm test -- geo`
+Run: `npm test -- geo`
 
 Expected: PASS.
 
@@ -81,7 +81,7 @@ Expected: PASS.
 
 **Step 3: Verify TypeScript/Svelte wiring**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 
 Expected: route changes type-check.
 
@@ -101,7 +101,7 @@ Expected: route changes type-check.
 
 **Step 2: Add any focused regression tests needed by changed helpers**
 
-Run: `rtk npm test -- geo track`
+Run: `npm test -- geo track`
 
 Expected: PASS.
 
@@ -112,18 +112,18 @@ Expected: PASS.
 
 **Step 1: Run relevant tests**
 
-Run: `rtk npm test -- geo track`
+Run: `npm test -- geo track`
 
 Expected: PASS.
 
 **Step 2: Run required repo check**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 
 Expected: PASS.
 
 **Step 3: Inspect the diff**
 
-Run: `rtk git diff --stat`
+Run: `git diff --stat`
 
 Expected: only the design, plan, geometry, tests, and area capture routes are changed by this work.

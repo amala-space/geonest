@@ -101,5 +101,5 @@ so crossed tracks cannot persist invalid polygon geometry.
   area calculation through the normalized path.
 - Route logic relies on the shared geometry result so `svelte-check` covers the
   TypeScript and Svelte wiring.
-- Required repo verification remains `rtk npm run check`, plus relevant Vitest
+- Required repo verification remains `npm run check`, plus relevant Vitest
   tests for touched geometry logic.

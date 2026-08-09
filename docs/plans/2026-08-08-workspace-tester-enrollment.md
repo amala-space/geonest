@@ -49,7 +49,7 @@ integration is called for it.
 
 **Step 2: Run the test to verify it fails**
 
-Run: `rtk npm test -- --run functions/src/earlyAccess.test.ts`
+Run: `npm test -- --run functions/src/earlyAccess.test.ts`
 
 Expected: TypeScript/Vitest failure because `addTesterToGroup` and membership
 fields do not exist yet.
@@ -74,7 +74,7 @@ In `functions/src/earlyAccess.ts`:
 
 **Step 4: Run the test to verify it passes**
 
-Run: `rtk npm test -- --run functions/src/earlyAccess.test.ts`
+Run: `npm test -- --run functions/src/earlyAccess.test.ts`
 
 Expected: all early-access tests pass.
 
@@ -120,7 +120,7 @@ attempting a request.
 
 **Step 2: Run the test to verify it fails**
 
-Run: `rtk npm --prefix functions test -- --run src/workspaceGroup.test.ts`
+Run: `npm --prefix functions test -- --run src/workspaceGroup.test.ts`
 
 Expected: failure because the module does not exist.
 
@@ -148,7 +148,7 @@ errors.
 
 **Step 4: Run the test to verify it passes**
 
-Run: `rtk npm --prefix functions test -- --run src/workspaceGroup.test.ts`
+Run: `npm --prefix functions test -- --run src/workspaceGroup.test.ts`
 
 Expected: all adapter tests pass.
 
@@ -172,7 +172,7 @@ existing SMTP fallback exactly once and records `membershipStatus: 'failed'`.
 
 **Step 2: Run the test to verify it fails**
 
-Run: `rtk npm --prefix functions test -- --run src/earlyAccess.test.ts`
+Run: `npm --prefix functions test -- --run src/earlyAccess.test.ts`
 
 Expected: the fallback test fails until the handler and function wiring agree
 on the new dependency.
@@ -199,8 +199,8 @@ The callable response remains the existing `{ status: 'received' | 'duplicate'
 Run:
 
 ```bash
-rtk npm --prefix functions run build
-rtk npm --prefix functions test
+npm --prefix functions run build
+npm --prefix functions test
 ```
 
 Expected: TypeScript emits successfully and all Functions tests pass.
@@ -244,7 +244,7 @@ overview to include `requestEarlyAccess` among server-enforced callables.
 
 **Step 2: Run documentation verification**
 
-Run: `rtk mkdocs build --strict`
+Run: `mkdocs build --strict`
 
 Expected: build completes without warnings.
 
@@ -253,11 +253,11 @@ Expected: build completes without warnings.
 Run:
 
 ```bash
-rtk npm run check
-rtk npm test
-rtk npm --prefix functions run build
-rtk npm --prefix functions test
-rtk mkdocs build --strict
+npm run check
+npm test
+npm --prefix functions run build
+npm --prefix functions test
+mkdocs build --strict
 ```
 
 Expected: every command exits 0.

@@ -11,7 +11,6 @@ Router for coding agents working in this repository. This file stays small: it t
 
 ## Commands
 
-- Prefix shell commands with `rtk` (see `~/.codex/RTK.md`). Examples: `rtk npm run check`, `rtk npm run test`.
 - Install: `npm install`
 - Type/diagnostic check: `npm run check`
 - Test: `npm test`
@@ -20,9 +19,10 @@ Router for coding agents working in this repository. This file stays small: it t
 
 ## Required verification before claiming done
 
-- Run `rtk npm run check` — must be green.
+- Run `npm run check` — must be green.
 - Run relevant tests for touched logic.
 - If you changed docs or moved pages, run `mkdocs build --strict` (fails on broken links / missing nav).
+- If you touched `.gitignore`, added a config file, or added anything naming the production deployment, run `npm run verify:public` — CI runs it as the `boundary` job.
 - Do not claim success unless checks are currently green.
 
 ## Hard rules (enforceable consequences)
@@ -33,6 +33,7 @@ Router for coding agents working in this repository. This file stays small: it t
 - **Do not make connectivity a prerequisite** for creating or editing a feature ([ADR-0001](docs/decisions/0001-offline-first-local-write.md)).
 - **Do not remove `cleanUrls`** or un-prerender `/welcome` ([ADR-0004](docs/decisions/0004-cleanurls-seo-serving.md)).
 - **New user-visible strings** go into `messages/en.json` and `messages/id.json` together.
+- **Never commit deployment identity or credentials** — Firebase config, signing keys, service accounts, real `assetlinks.json`, or the production domain/package name. Ship a `.example` and read the real value from ignored local config; `npm run verify:public` fails the build otherwise.
 - **Colors, radii, z-index, and shared components** follow [`docs/development/conventions.md`](docs/development/conventions.md) — no hardcoded hex/px/z-index, no re-implementing ProjectsPanel / DropdownMenu / PageHeader / pill-toggle.
 
 ## Definition of done

@@ -56,24 +56,24 @@ When the label preference changes, update both `saved-labels` and `saved-track-l
 
 **Step 1: Run repository check**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 
 Expected: PASS with no Svelte or TypeScript diagnostics.
 
 **Step 2: Run touched tests**
 
-Run: `rtk npm test -- labelPreferences`
+Run: `npm test -- labelPreferences`
 
 Expected: PASS for the label preference regression coverage already touched in this working tree.
 
 **Step 3: Run whitespace diff validation**
 
-Run: `rtk git diff --check`
+Run: `git diff --check`
 
 Expected: no output.
 
 **Step 4: Review layer diff**
 
-Run: `rtk git diff -- src/routes/projects/[id]/+page.svelte`
+Run: `git diff -- src/routes/projects/[id]/+page.svelte`
 
 Expected: the general label filter excludes LineString tracks, the track label layer uses line-center horizontal placement, and label visibility updates both label layers.

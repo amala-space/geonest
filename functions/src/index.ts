@@ -4,6 +4,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
 import { logger } from 'firebase-functions';
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import { resolveClientIp, resolveTrustedProxyDepth } from './clientIp.js';
 import { resolveFeedbackCorsOrigins } from './cors.js';
 import {
 	FeedbackError,
@@ -61,22 +62,9 @@ const dependencies: FeedbackDependencies = {
 	}
 };
 
-/**
- * Resolve the real client IP for rate limiting. On Cloud Run / Functions v2 the
- * request arrives through Google's front-end proxy, so `rawRequest.ip` is the
- * proxy address; the originating client is the left-most entry of
- * X-Forwarded-For. Fall back to the socket address only when the header is
- * absent (e.g. local emulator).
- */
-function clientIp(req: { headers: Record<string, unknown>; ip?: string; socket?: { remoteAddress?: string } }): string {
-	const forwarded = req.headers['x-forwarded-for'];
-	const header = Array.isArray(forwarded) ? forwarded[0] : forwarded;
-	if (typeof header === 'string') {
-		const first = header.split(',')[0]?.trim();
-		if (first) return first;
-	}
-	return req.ip || req.socket?.remoteAddress || 'unknown';
-}
+// Resolved once at deploy time so an invalid depth fails the container start
+// rather than silently widening the rate limit on every request.
+const trustedProxyDepth = resolveTrustedProxyDepth();
 
 export const submitFeedback = onCall(
 	{
@@ -93,7 +81,7 @@ export const submitFeedback = onCall(
 				{
 					data: request.data,
 					authUid: request.auth?.uid,
-					ip: clientIp(request.rawRequest)
+					ip: resolveClientIp(request.rawRequest, trustedProxyDepth)
 				},
 				dependencies
 			);

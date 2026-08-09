@@ -6,6 +6,17 @@ on:
   pull_request:
 
 jobs:
+  # Guards the public-repository boundary: no credential, signing, or
+  # production-identity file may become publishable. Runs standalone and without
+  # dependencies so a leak fails within seconds of a push.
+  boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify public repository boundary
+        run: npm run verify:public
+
   verify:
     runs-on: ubuntu-latest
     steps:

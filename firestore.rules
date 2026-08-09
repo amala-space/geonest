@@ -159,6 +159,11 @@ service cloud.firestore {
               && resource.data.uid == uid
               && request.resource.data.role == resource.data.role
               && request.resource.data.role == 'member'
+              // Membership state is an admin-controlled field. Without this a
+              // member could write state back to 'active' on their own document
+              // and undo a revocation. Read both sides with a default so a
+              // legacy document that predates the field stays writable.
+              && request.resource.data.get('state', null) == resource.data.get('state', null)
             )
           );
         allow delete: if isSignedIn() && (request.auth.uid == uid || isProjectAdmin(projectId));

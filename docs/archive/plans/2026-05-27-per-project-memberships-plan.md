@@ -27,7 +27,7 @@ Add tests that expect:
 
 **Step 2: Run the focused tests to confirm the current shape fails**
 
-Run: `rtk npm exec vitest run src/lib/sync/remoteStore.test.ts src/lib/adminStore.test.ts src/lib/projectAccess.test.ts`
+Run: `npm exec vitest run src/lib/sync/remoteStore.test.ts src/lib/adminStore.test.ts src/lib/projectAccess.test.ts`
 Expected: failures showing the old top-level `projectMemberships` path.
 
 **Step 3: Implement the new Firestore path**
@@ -41,7 +41,7 @@ Update create/join flows so they write per-project membership docs instead of th
 
 **Step 4: Run the focused tests to verify they pass**
 
-Run: `rtk npm exec vitest run src/lib/sync/remoteStore.test.ts src/lib/adminStore.test.ts src/lib/projectAccess.test.ts`
+Run: `npm exec vitest run src/lib/sync/remoteStore.test.ts src/lib/adminStore.test.ts src/lib/projectAccess.test.ts`
 Expected: PASS.
 
 **Step 5: Commit**
@@ -68,7 +68,7 @@ Add tests that expect login hydration to:
 
 **Step 2: Run the focused tests to confirm the current implementation no longer matches**
 
-Run: `rtk npm exec vitest run src/lib/adminStore.test.ts src/routes/admin-page.test.ts`
+Run: `npm exec vitest run src/lib/adminStore.test.ts src/routes/admin-page.test.ts`
 Expected: failures until the new membership query path is wired through.
 
 **Step 3: Implement the hydration path**
@@ -81,7 +81,7 @@ Update `syncProjectsForCurrentUser()` and the admin page boot flow to:
 
 **Step 4: Run the focused tests to verify they pass**
 
-Run: `rtk npm exec vitest run src/lib/adminStore.test.ts src/routes/admin-page.test.ts`
+Run: `npm exec vitest run src/lib/adminStore.test.ts src/routes/admin-page.test.ts`
 Expected: PASS.
 
 **Step 5: Commit**
@@ -108,7 +108,7 @@ Add a `members/{uid}` match under `projects/{projectId}` and remove the top-leve
 
 **Step 3: Verify the rules compile in the repo context**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 Expected: PASS.
 
 **Step 4: Commit**
@@ -133,7 +133,7 @@ Explain:
 
 **Step 2: Run repo checks**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 Expected: PASS.
 
 **Step 3: Commit**

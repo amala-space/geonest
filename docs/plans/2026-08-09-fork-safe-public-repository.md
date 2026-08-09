@@ -32,7 +32,7 @@ source, Gradle files, `docs/`, and `scripts/` are present.
 
 **Step 2: Run it to verify it fails**
 
-Run: `rtk bash scripts/verify-public-repository.sh`
+Run: `bash scripts/verify-public-repository.sh`
 
 Expected: fail while root `.gitignore` excludes `/android`, `docs`, and
 `scripts`, or while a tracked identity file enters the temporary repository.
@@ -45,7 +45,7 @@ actual path, and normalize the nested ignore files with a final newline.
 
 **Step 4: Verify the boundary check passes**
 
-Run: `rtk bash scripts/verify-public-repository.sh`
+Run: `bash scripts/verify-public-repository.sh`
 
 Expected: all source is present and each excluded file is absent.
 
@@ -79,7 +79,7 @@ configuration/deployment infrastructure.
 
 **Step 4: Verify a neutral debug build**
 
-Run: `rtk npm run build && rtk npx cap sync android && rtk bash android/gradlew :app:assembleDebug`
+Run: `npm run build && npx cap sync android && bash android/gradlew :app:assembleDebug`
 
 Expected: exit 0 without `google-services.json` or a signing key.
 
@@ -101,7 +101,7 @@ files intended for the public repository.
 
 **Step 2: Run it to verify failure**
 
-Run: `rtk bash scripts/verify-public-repository.sh`
+Run: `bash scripts/verify-public-repository.sh`
 
 Expected: fail on current owner-specific runtime and static files.
 
@@ -141,9 +141,9 @@ build and test the Cloud Functions in CI as a separate job or explicit steps.
 
 **Step 4: Verify the clean archive and CI-equivalent commands**
 
-Run: `rtk npm run check`, `rtk npm test`, `rtk npm run build`,
-`rtk npm --prefix functions run build`, `rtk npm --prefix functions test`, and
-`rtk mkdocs build --strict`.
+Run: `npm run check`, `npm test`, `npm run build`,
+`npm --prefix functions run build`, `npm --prefix functions test`, and
+`mkdocs build --strict`.
 
 ### Task 5: Document the fork workflow
 
@@ -160,6 +160,6 @@ Link identity, and which production-only assets are never committed.
 
 **Step 2: Verify documentation links**
 
-Run: `rtk mkdocs build --strict`
+Run: `mkdocs build --strict`
 
 Expected: exit 0.

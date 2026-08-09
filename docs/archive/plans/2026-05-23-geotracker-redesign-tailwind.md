@@ -23,7 +23,7 @@
 2. Add the Tailwind Vite plugin to `vite.config.ts`.
 3. Import Tailwind from `src/app.css`.
 4. Preserve existing CSS variables so current screens keep rendering while migration happens.
-5. Run `rtk npm run check`.
+5. Run `npm run check`.
 
 ### Task 2: GIS Design Tokens
 
@@ -34,7 +34,7 @@
 1. Replace the current one-note global palette with neutral GIS console tokens.
 2. Add semantic tokens for map blue, area green, warning amber, danger red, elevated surfaces, and focus rings.
 3. Keep the old variable names mapped to the new palette for backward compatibility.
-4. Run `rtk npm run check`.
+4. Run `npm run check`.
 
 ### Task 3: Project Map Page Reference Redesign
 
@@ -46,7 +46,7 @@
 2. Keep the map as the dominant full-height surface.
 3. Convert capture actions into a consistent bottom command bar.
 4. Keep behavior unchanged.
-5. Run `rtk npm run check`.
+5. Run `npm run check`.
 
 ### Task 4: Verification
 
@@ -54,6 +54,6 @@
 - Test: existing test suite
 
 **Steps:**
-1. Run `rtk npm run test`.
-2. Run `rtk npm run check`.
+1. Run `npm run test`.
+2. Run `npm run check`.
 3. Start the dev server and visually inspect the project page at mobile and desktop widths.

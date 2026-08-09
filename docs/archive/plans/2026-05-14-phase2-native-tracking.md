@@ -14,7 +14,7 @@
 
 - Phase 1 complete (17 git commits)
 - Android Studio installed to build/run APK
-- Working directory: `/mnt/bulk/srv/apps/geotracker`
+- Working directory: `<repository root>`
 - Android project at `android/`
 - Existing MainActivity: `android/app/src/main/java/com/geotracker/app/MainActivity.java`
 
@@ -79,7 +79,7 @@ describe('track session', () => {
 ### Step 2: Run to verify fail
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run test
+cd <repository root> && npm run test
 ```
 
 Expected: FAIL — `createTrackSession is not exported from './db'`
@@ -190,7 +190,7 @@ export async function deleteTrackSession(id: string): Promise<void> {
 ### Step 4: Run tests to verify pass
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run test
+cd <repository root> && npm run test
 ```
 
 Expected: 28 tests pass (24 existing + 4 new track session tests).
@@ -198,7 +198,7 @@ Expected: 28 tests pass (24 existing + 4 new track session tests).
 ### Step 5: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add -A && git commit -m "feat: extend DB schema v2 with TrackSession and TrackPoint stores"
+cd <repository root> && git add -A && git commit -m "feat: extend DB schema v2 with TrackSession and TrackPoint stores"
 ```
 
 ---
@@ -277,7 +277,7 @@ describe('trackToPolygon', () => {
 ### Step 2: Run to verify fail
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run test
+cd <repository root> && npm run test
 ```
 
 Expected: FAIL — "Cannot find module './track'"
@@ -314,7 +314,7 @@ export function canCloseAsPolygon(points: TrackPoint[], thresholdMeters: number)
 ### Step 4: Run tests to verify pass
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run test
+cd <repository root> && npm run test
 ```
 
 Expected: 34 tests pass.
@@ -322,7 +322,7 @@ Expected: 34 tests pass.
 ### Step 5: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add -A && git commit -m "feat: add track conversion utilities (LineString, Polygon, canClose)"
+cd <repository root> && git add -A && git commit -m "feat: add track conversion utilities (LineString, Polygon, canClose)"
 ```
 
 ---
@@ -401,7 +401,7 @@ implementation 'com.google.android.gms:play-services-location:21.3.0'
 ### Step 3: Sync gradle to verify it resolves
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker/android && ./gradlew dependencies --configuration releaseRuntimeClasspath 2>&1 | grep "play-services-location" | head -3
+cd android && ./gradlew dependencies --configuration releaseRuntimeClasspath 2>&1 | grep "play-services-location" | head -3
 ```
 
 Expected: shows `com.google.android.gms:play-services-location:21.3.0`
@@ -411,7 +411,7 @@ If gradle sync fails due to network, just verify the line was added correctly to
 ### Step 4: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add android/app/src/main/AndroidManifest.xml android/app/build.gradle && git commit -m "feat: add location permissions, foreground service declaration, play-services-location"
+cd <repository root> && git add android/app/src/main/AndroidManifest.xml android/app/build.gradle && git commit -m "feat: add location permissions, foreground service declaration, play-services-location"
 ```
 
 ---
@@ -554,7 +554,7 @@ public class LocationService extends Service {
 ### Step 2: Verify file is in correct location
 
 ```bash
-ls /mnt/bulk/srv/apps/geotracker/android/app/src/main/java/com/geotracker/app/
+ls android/app/src/main/java/com/geotracker/app/
 ```
 
 Expected: `LocationService.java`, `MainActivity.java`
@@ -562,7 +562,7 @@ Expected: `LocationService.java`, `MainActivity.java`
 ### Step 3: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add android/ && git commit -m "feat: add LocationService foreground GPS service"
+cd <repository root> && git add android/ && git commit -m "feat: add LocationService foreground GPS service"
 ```
 
 ---
@@ -695,7 +695,7 @@ public class GpsTrackerPlugin extends Plugin {
 ### Step 2: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add android/ && git commit -m "feat: add GpsTrackerPlugin Capacitor plugin"
+cd <repository root> && git add android/ && git commit -m "feat: add GpsTrackerPlugin Capacitor plugin"
 ```
 
 ---
@@ -727,7 +727,7 @@ public class MainActivity extends BridgeActivity {
 ### Step 2: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add android/app/src/main/java/com/geotracker/app/MainActivity.java && git commit -m "feat: register GpsTrackerPlugin in MainActivity"
+cd <repository root> && git add android/app/src/main/java/com/geotracker/app/MainActivity.java && git commit -m "feat: register GpsTrackerPlugin in MainActivity"
 ```
 
 ---
@@ -785,7 +785,7 @@ export const GpsTracker = registerPlugin<GpsTrackerPlugin>('GpsTracker', {
 ### Step 2: Verify build passes
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run build
+cd <repository root> && npm run build
 ```
 
 Expected: clean build.
@@ -793,7 +793,7 @@ Expected: clean build.
 ### Step 3: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add src/lib/gpsTracker.ts && git commit -m "feat: add GpsTracker JS plugin bridge with web stub"
+cd <repository root> && git add src/lib/gpsTracker.ts && git commit -m "feat: add GpsTracker JS plugin bridge with web stub"
 ```
 
 ---
@@ -928,13 +928,13 @@ export function formatElapsed(ms: number): string {
 ### Step 2: Verify build
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run build
+cd <repository root> && npm run build
 ```
 
 ### Step 3: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add src/lib/trackStore.ts && git commit -m "feat: add track session store with start/pause/resume/finish/cancel"
+cd <repository root> && git add src/lib/trackStore.ts && git commit -m "feat: add track session store with start/pause/resume/finish/cancel"
 ```
 
 ---
@@ -1188,7 +1188,7 @@ export const prerender = false;
 ### Step 3: Build to verify
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run build
+cd <repository root> && npm run build
 ```
 
 Fix any TypeScript errors.
@@ -1196,7 +1196,7 @@ Fix any TypeScript errors.
 ### Step 4: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add -A && git commit -m "feat: add live tracking screen with start/pause/finish/save options"
+cd <repository root> && git add -A && git commit -m "feat: add live tracking screen with start/pause/finish/save options"
 ```
 
 ---
@@ -1255,13 +1255,13 @@ font-size: 0.85rem; padding: 0.6rem 0.25rem;
 ### Step 3: Build to verify
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run build
+cd <repository root> && npm run build
 ```
 
 ### Step 4: Run tests
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run test
+cd <repository root> && npm run test
 ```
 
 Expected: 34 tests still passing.
@@ -1269,7 +1269,7 @@ Expected: 34 tests still passing.
 ### Step 5: Commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add src/routes/projects/[id]/+page.svelte && git commit -m "feat: add Start Track button to project screen"
+cd <repository root> && git add src/routes/projects/[id]/+page.svelte && git commit -m "feat: add Start Track button to project screen"
 ```
 
 ---
@@ -1279,7 +1279,7 @@ cd /mnt/bulk/srv/apps/geotracker && git add src/routes/projects/[id]/+page.svelt
 ### Step 1: Run full test suite
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run test
+cd <repository root> && npm run test
 ```
 
 Expected: 34 tests pass.
@@ -1287,7 +1287,7 @@ Expected: 34 tests pass.
 ### Step 2: Production build
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run build
+cd <repository root> && npm run build
 ```
 
 Expected: clean.
@@ -1295,7 +1295,7 @@ Expected: clean.
 ### Step 3: Cap sync
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npx cap sync
+cd <repository root> && npx cap sync
 ```
 
 Expected: syncs build to `android/`, detects `GpsTracker` plugin.
@@ -1305,7 +1305,7 @@ Expected: syncs build to `android/`, detects `GpsTracker` plugin.
 ### Step 4: Try gradle build (verify Java compiles)
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker/android && ./gradlew assembleDebug 2>&1 | tail -20
+cd android && ./gradlew assembleDebug 2>&1 | tail -20
 ```
 
 Expected: `BUILD SUCCESSFUL`. If not, fix compilation errors.
@@ -1318,7 +1318,7 @@ Expected: `BUILD SUCCESSFUL`. If not, fix compilation errors.
 ### Step 5: Final commit
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && git add -A && git commit -m "feat: Phase 2 complete — native GPS tracking with foreground service"
+cd <repository root> && git add -A && git commit -m "feat: Phase 2 complete — native GPS tracking with foreground service"
 ```
 
 ---

@@ -15,7 +15,7 @@
 - Node 18+
 - Android Studio installed (for Phase 1 just need Node for web dev)
 - Free Protomaps API key from https://protomaps.com (takes 30 seconds)
-- Working directory: `/mnt/bulk/srv/apps/geotracker`
+- Working directory: `<repository root>`
 
 ---
 
@@ -27,7 +27,7 @@
 **Step 1: Scaffold SvelteKit inside the existing directory**
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker
+cd <repository root>
 npm create svelte@latest . -- --template skeleton --types typescript --no-eslint --no-prettier --no-playwright --no-vitest
 ```
 

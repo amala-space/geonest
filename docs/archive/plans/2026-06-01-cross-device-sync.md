@@ -63,7 +63,7 @@ export async function syncProjectsForCurrentUser(options: { force?: boolean } = 
 **Step 4: Run existing admin store tests — should still pass**
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npx vitest run src/routes/admin-page.test.ts
+cd <repository root> && npx vitest run src/routes/admin-page.test.ts
 ```
 Expected: all tests pass (they call `resetProjectsSyncStateForTests()` between runs so the new variables reset correctly).
 
@@ -135,7 +135,7 @@ let resumeListener: Promise<import('@capacitor/core').PluginListenerHandle> | nu
 **Step 4: Type-check**
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npx tsc --noEmit
+cd <repository root> && npx tsc --noEmit
 ```
 Expected: no errors.
 
@@ -229,7 +229,7 @@ import {
 **Step 4: Type-check**
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npx tsc --noEmit
+cd <repository root> && npx tsc --noEmit
 ```
 
 **Step 5: Commit**
@@ -280,7 +280,7 @@ Do this for all three call sites.
 **Step 3: Type-check and run all tests**
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npx tsc --noEmit
+cd <repository root> && npx tsc --noEmit
 npx vitest run src/lib/surveyorProfile.test.ts src/routes/admin-page.test.ts
 ```
 Expected: no TS errors, all tests pass. The surveyor profile tests are unaffected because they don't call `pushProfileSelectionToRemote` and `surveyorProfile.ts` itself is unchanged.
@@ -304,7 +304,7 @@ The test "stores active profile ids per project" directly asserts `localStorage.
 **Verify entire test suite**
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npx vitest run
+cd <repository root> && npx vitest run
 ```
 Expected: all tests pass.
 

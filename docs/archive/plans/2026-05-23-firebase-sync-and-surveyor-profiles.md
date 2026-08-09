@@ -341,8 +341,8 @@ This avoids paying for PostGIS before the reporting need is proven.
 5. Update `deleteProject()` to remove project child stores: features, track sessions, track points, surveyor profiles, project access records, and sync mutations.
 6. Add tests for creating/listing profiles and queueing a mutation.
 7. Add a regression test proving `deleteProject()` cleans up track sessions, track points, and the new sync/profile stores.
-8. Run: `rtk npm run test -- src/lib/db.test.ts`
-9. Run: `rtk npm run check`
+8. Run: `npm run test -- src/lib/db.test.ts`
+9. Run: `npm run check`
 
 ### Task 2: Add Active Surveyor Profile Preference
 
@@ -356,8 +356,8 @@ This avoids paying for PostGIS before the reporting need is proven.
 1. Add helpers to get/set active profile id per project in `localStorage`.
 2. Add helper to resolve active profile from IndexedDB.
 3. Test default empty state, project-specific persistence, and profile switching.
-4. Run: `rtk npm run test -- src/lib/surveyorProfile.test.ts`
-5. Run: `rtk npm run check`
+4. Run: `npm run test -- src/lib/surveyorProfile.test.ts`
+5. Run: `npm run check`
 
 ### Task 3: Add Surveyor Profile Selection Screen
 
@@ -376,7 +376,7 @@ This avoids paying for PostGIS before the reporting need is proven.
 3. Store selected profile locally.
 4. Add the active-profile redirect guard in `src/routes/projects/[id]/+layout.svelte` so direct navigation to point, polygon, track, export, and map routes is covered in one place.
 5. Include a small "switch profile" action in project UI.
-6. Run: `rtk npm run check`
+6. Run: `npm run check`
 
 ### Task 4: Attach Surveyor Attribution to Feature Saves
 
@@ -397,8 +397,8 @@ This avoids paying for PostGIS before the reporting need is proven.
 4. Confirm `src/lib/FeatureSaveDialog.svelte` remains a data-entry component only; if it later performs writes directly, add profile attribution there too.
 5. For track sessions, snapshot the active surveyor profile when tracking starts and use that snapshot when saving the finished track. This avoids a mid-session profile switch changing attribution at save time.
 6. Add export tests for surveyor attribution.
-7. Run: `rtk npm run test -- src/lib/export.test.ts`
-8. Run: `rtk npm run check`
+7. Run: `npm run test -- src/lib/export.test.ts`
+8. Run: `npm run check`
 
 ### Task 5: Introduce Sync Mutation Queue
 
@@ -414,8 +414,8 @@ This avoids paying for PostGIS before the reporting need is proven.
 3. Change delete to tombstone synced records instead of hard delete.
 4. Keep hard delete for unsynced local-only records if simpler.
 5. Update list helpers to hide tombstoned records by default.
-6. Run: `rtk npm run test -- src/lib/db.test.ts`
-7. Run: `rtk npm run check`
+6. Run: `npm run test -- src/lib/db.test.ts`
+7. Run: `npm run check`
 
 ### Task 6: Add Firebase Client Boundary
 
@@ -435,8 +435,8 @@ This avoids paying for PostGIS before the reporting need is proven.
 4. Use root-level `projects/{projectId}` Firestore paths for v1.
 5. Add remote-store functions for project/profile/feature reads and writes.
 6. Mock Firebase in tests; test payload conversion and path construction.
-7. Run: `rtk npm run test -- src/lib/remoteStore.test.ts`
-8. Run: `rtk npm run check`
+7. Run: `npm run test -- src/lib/remoteStore.test.ts`
+8. Run: `npm run check`
 
 ### Task 7: Implement Project Join Flow
 
@@ -456,8 +456,8 @@ This avoids paying for PostGIS before the reporting need is proven.
 4. Pull project metadata/profiles/features.
 5. Route to profile selection.
 6. Add tests for local access persistence.
-7. Run: `rtk npm run test -- src/lib/projectAccess.test.ts`
-8. Run: `rtk npm run check`
+7. Run: `npm run test -- src/lib/projectAccess.test.ts`
+8. Run: `npm run check`
 
 ### Task 8: Implement Sync Engine
 
@@ -476,8 +476,8 @@ This avoids paying for PostGIS before the reporting need is proven.
 4. Add sync calls on project open, app focus, and after saves.
 5. Add visible sync status for project cards and project page.
 6. Test push order, retry behavior, and conflict marking with mocked remote store.
-7. Run: `rtk npm run test -- src/lib/sync.test.ts`
-8. Run: `rtk npm run check`
+7. Run: `npm run test -- src/lib/sync.test.ts`
+8. Run: `npm run check`
 
 ### Task 9: Add Admin Project Creation
 
@@ -495,8 +495,8 @@ This avoids paying for PostGIS before the reporting need is proven.
 3. Add access-link creation and revocation.
 4. Display copyable project link or QR payload.
 5. Test admin-store payloads and access-link state transitions.
-6. Run: `rtk npm run test -- src/lib/adminStore.test.ts`
-7. Run: `rtk npm run check`
+6. Run: `npm run test -- src/lib/adminStore.test.ts`
+7. Run: `npm run check`
 
 ### Task 10: Add Streamlit Reporting Contract
 
@@ -511,7 +511,7 @@ This avoids paying for PostGIS before the reporting need is proven.
 2. Document GeoJSON export shape for reporting.
 3. Document recommended Streamlit Firebase Admin SDK read pattern.
 4. Document future PostGIS tables and geometry columns.
-5. Run: `rtk npm run check`
+5. Run: `npm run check`
 
 ## Firebase Security Rules Outline
 
@@ -539,15 +539,15 @@ Do not trust `surveyorNameSnapshot` for authorization. It is only a report label
 Required before claiming implementation complete:
 
 ```bash
-rtk npm run check
-rtk npm run test
+npm run check
+npm run test
 ```
 
 For Android sync-impacting changes:
 
 ```bash
-rtk npm run build
-rtk npx cap sync
+npm run build
+npx cap sync
 ```
 
 ## Completion Criteria

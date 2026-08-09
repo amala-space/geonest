@@ -20,9 +20,9 @@ Private/app routes should remain unindexed using both route-level `noindex, nofo
 
 Verified with:
 
-- `rtk npm test -- src/routes/page-titles.test.ts src/routes/welcome-page.test.ts src/routes/tutorials-page.test.ts src/routes/admin-page.test.ts src/routes/landing-page.test.ts`
-- `rtk npm run check`
-- `rtk npm run build`
+- `npm test -- src/routes/page-titles.test.ts src/routes/welcome-page.test.ts src/routes/tutorials-page.test.ts src/routes/admin-page.test.ts src/routes/landing-page.test.ts`
+- `npm run check`
+- `npm run build`
 - `rg` checks against `build/welcome.html`, `build/tutorials.html`, `build/privacy.html`, `build/robots.txt`, and `build/sitemap.xml`
 
 ## Resolution

@@ -164,7 +164,7 @@ Add to the `<style>` block (remove the old `.empty`, `.empty-icon`, `.empty-head
 ### Step 3: Type-check
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run check
+cd <repository root> && npm run check
 ```
 
 Expected: 0 errors, 0 warnings.
@@ -479,7 +479,7 @@ Replace the entire `<style>` block with:
 ### Step 6: Type-check
 
 ```bash
-cd /mnt/bulk/srv/apps/geotracker && npm run check
+cd <repository root> && npm run check
 ```
 
 Expected: 0 errors, 0 warnings.

@@ -23,7 +23,7 @@ Add tests that assert:
 
 **Step 2: Run test to verify it fails**
 
-Run: `rtk npm run test -- src/lib/components/MapTopRightControls.test.ts`
+Run: `npm run test -- src/lib/components/MapTopRightControls.test.ts`
 Expected: FAIL because the new layout wrapper/classes do not exist yet.
 
 ### Task 2: Move control spacing into MapTopRightControls
@@ -41,7 +41,7 @@ Expected: FAIL because the new layout wrapper/classes do not exist yet.
 
 **Step 2: Run the focused test**
 
-Run: `rtk npm run test -- src/lib/components/MapTopRightControls.test.ts`
+Run: `npm run test -- src/lib/components/MapTopRightControls.test.ts`
 Expected: PASS
 
 ### Task 3: Verify the repo checks
@@ -51,10 +51,10 @@ Expected: PASS
 
 **Step 1: Run type and Svelte checks**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 Expected: PASS
 
 **Step 2: Run the focused component test again if needed**
 
-Run: `rtk npm run test -- src/lib/components/MapTopRightControls.test.ts`
+Run: `npm run test -- src/lib/components/MapTopRightControls.test.ts`
 Expected: PASS

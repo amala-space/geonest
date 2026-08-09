@@ -76,6 +76,6 @@ mapping. Static configuration tests ensure feedback rules are closed and
 Functions/Storage targets are present. Existing page tests cover form behavior.
 
 Local verification includes function tests/build, focused client tests, the full
-Vitest suite, `rtk npm run check`, and rules compilation. Deployment provisions
+Vitest suite, `npm run check`, and rules compilation. Deployment provisions
 the default bucket, deploys closed rules and the callable/cleanup functions, and
 performs a smoke submission before completion is claimed.

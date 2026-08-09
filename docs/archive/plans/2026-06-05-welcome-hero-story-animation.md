@@ -24,7 +24,7 @@ Add a test that asserts the welcome page hero exposes the new story labels in th
 
 **Step 2: Run test to verify it fails**
 
-Run: `rtk npm run test -- src/routes/landing-page.test.ts`
+Run: `npm run test -- src/routes/landing-page.test.ts`
 Expected: FAIL because the story labels do not exist yet.
 
 ### Task 2: Refactor the hero SVG into a product-story sequence
@@ -41,7 +41,7 @@ Expected: FAIL because the story labels do not exist yet.
 
 **Step 2: Run the focused test**
 
-Run: `rtk npm run test -- src/routes/landing-page.test.ts`
+Run: `npm run test -- src/routes/landing-page.test.ts`
 Expected: PASS
 
 ### Task 3: Tune animation timing and responsive layout
@@ -57,7 +57,7 @@ Expected: PASS
 
 **Step 2: Run checks**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 Expected: PASS
 
 ### Task 4: Verify the final hero flow
@@ -67,10 +67,10 @@ Expected: PASS
 
 **Step 1: Run focused test again if needed**
 
-Run: `rtk npm run test -- src/routes/landing-page.test.ts`
+Run: `npm run test -- src/routes/landing-page.test.ts`
 Expected: PASS
 
 **Step 2: Run repository checks**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 Expected: PASS

@@ -49,7 +49,7 @@ describe('label preferences', () => {
 
 **Step 2: Run test to verify it fails**
 
-Run: `rtk npm test -- labelPreferences`
+Run: `npm test -- labelPreferences`
 
 Expected: FAIL because `./labelPreferences` does not exist yet.
 
@@ -75,7 +75,7 @@ export function setLabelPreference(projectId: string, showLabels: boolean): void
 
 **Step 4: Run test to verify it passes**
 
-Run: `rtk npm test -- labelPreferences`
+Run: `npm test -- labelPreferences`
 
 Expected: PASS.
 
@@ -98,7 +98,7 @@ Keep the existing `saved-labels` initial `layout.visibility` and `map.setLayoutP
 
 **Step 4: Run focused verification**
 
-Run: `rtk npm test -- labelPreferences`
+Run: `npm test -- labelPreferences`
 
 Expected: PASS.
 
@@ -111,19 +111,19 @@ Expected: PASS.
 
 **Step 1: Run repository check**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 
 Expected: PASS with no Svelte or TypeScript diagnostics.
 
 **Step 2: Run whitespace diff validation**
 
-Run: `rtk git diff --check`
+Run: `git diff --check`
 
 Expected: no output.
 
 **Step 3: Review scoped diff**
 
-Run: `rtk git diff -- src/lib/labelPreferences.ts src/lib/labelPreferences.test.ts src/routes/projects/[id]/+page.svelte`
+Run: `git diff -- src/lib/labelPreferences.ts src/lib/labelPreferences.test.ts src/routes/projects/[id]/+page.svelte`
 
 Expected: only the preference helper, its tests, and the label-toggle wiring appear in this task diff.
 

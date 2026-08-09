@@ -28,7 +28,7 @@ Cover these behaviors:
 
 **Step 2: Run test to verify it fails**
 
-Run: `rtk npm test -- --run src/lib/errorMessages.test.ts`
+Run: `npm test -- --run src/lib/errorMessages.test.ts`
 Expected: FAIL because the helper and messages do not exist yet.
 
 **Step 3: Write minimal implementation**
@@ -41,7 +41,7 @@ Implement a small helper that:
 
 **Step 4: Run test to verify it passes**
 
-Run: `rtk npm test -- --run src/lib/errorMessages.test.ts`
+Run: `npm test -- --run src/lib/errorMessages.test.ts`
 Expected: PASS.
 
 **Step 5: Commit**
@@ -137,12 +137,12 @@ git commit -m "feat: normalize user-facing errors"
 
 **Step 1: Run the repo check**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 Expected: PASS with zero Svelte diagnostics.
 
 **Step 2: Run the relevant test suite**
 
-Run: `rtk npm test -- --run src/lib/errorMessages.test.ts src/routes/admin-page.test.ts`
+Run: `npm test -- --run src/lib/errorMessages.test.ts src/routes/admin-page.test.ts`
 Expected: PASS.
 
 **Step 3: Review for raw error leaks**

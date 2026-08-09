@@ -1,5 +1,7 @@
+# These paths are kept out of search results only. Access to project data is
+# enforced by firestore.rules, never by this file.
 User-agent: *
-Disallow:
+Allow: /
 Disallow: /admin
 Disallow: /projects
 Disallow: /join

@@ -23,7 +23,7 @@ Add tests that assert:
 
 **Step 2: Run test to verify it fails**
 
-Run: `rtk npm run test -- src/routes/tutorials-page.test.ts`
+Run: `npm run test -- src/routes/tutorials-page.test.ts`
 Expected: FAIL because the desktop inline actions do not exist yet.
 
 ### Task 2: Refactor the tutorials page for responsive card actions
@@ -40,7 +40,7 @@ Expected: FAIL because the desktop inline actions do not exist yet.
 
 **Step 2: Run the focused test**
 
-Run: `rtk npm run test -- src/routes/tutorials-page.test.ts`
+Run: `npm run test -- src/routes/tutorials-page.test.ts`
 Expected: PASS
 
 ### Task 3: Allow direct video launch for desktop actions
@@ -56,7 +56,7 @@ Expected: PASS
 
 **Step 2: Run checks**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 Expected: PASS
 
 ### Task 4: Verify the changed UI path
@@ -66,10 +66,10 @@ Expected: PASS
 
 **Step 1: Run the focused test again if needed**
 
-Run: `rtk npm run test -- src/routes/tutorials-page.test.ts`
+Run: `npm run test -- src/routes/tutorials-page.test.ts`
 Expected: PASS
 
 **Step 2: Run repository checks**
 
-Run: `rtk npm run check`
+Run: `npm run check`
 Expected: PASS

@@ -20,7 +20,7 @@
 
 **Steps:**
 1. Write failing tests for schema validation, auth-derived UID, JPEG/size checks, rate limiting, Firestore-first persistence, upload success, upload failure, and post-upload cleanup.
-2. Run `rtk npm --prefix functions test` and confirm RED.
+2. Run `npm --prefix functions test` and confirm RED.
 3. Implement a dependency-injected handler with strict types and no `any`.
 4. Re-run the focused function tests and confirm GREEN.
 
@@ -83,7 +83,7 @@
 
 **Steps:**
 1. Build functions and run all focused tests.
-2. Run `rtk npm test`, `rtk npm run check`, and `rtk git diff --check`.
+2. Run `npm test`, `npm run check`, and `git diff --check`.
 3. Create this fork's default Firebase Storage bucket in `us-central1` through
    the Firebase Storage API.
 4. Configure 365-day bucket lifecycle and Firestore TTL for feedback/rate-limit collections.

@@ -109,7 +109,13 @@ assert_excluded static/.well-known/assetlinks.json
 
 # This scans every publishable file, including README, docs, tests, and scripts.
 # Legal attribution remains in LICENSE.
-# Encoded values prevent this verifier from becoming a production identity leak.
+#
+# The needles are base64 so that grepping the public tree for the production
+# domain does not match this file itself. That is de-duplication, not secrecy:
+# the values decode in one command, and they are already public through the
+# website and the Play listing. Never add a real secret here — a credential
+# belongs in ignored local config, and this check only proves that identity
+# strings have not leaked into publishable files.
 assert_no_production_identity \
 	YW1hbGFzcGFjZS5jb20= \
 	YW1hbGEtZ2VvLXRyYWNrZXI= \
