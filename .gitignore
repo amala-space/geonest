@@ -32,6 +32,9 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.test
+# This build input must survive both local and global ignore rules in a fresh
+# public repository (the Functions Vitest runner loads it directly).
+!functions/tsconfig.json
 
 # Vite
 vite.config.js.timestamp-*

@@ -84,6 +84,7 @@ assert_tracked .env.example
 assert_tracked .firebaserc.example
 assert_tracked capacitor.config.ts.example
 assert_tracked functions/.env.example
+assert_tracked functions/tsconfig.json
 assert_tracked docs/index.md
 assert_tracked scripts/verify-public-repository.sh
 assert_tracked static/.well-known/assetlinks.json.example
